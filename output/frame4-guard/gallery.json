@@ -1,0 +1,90 @@
+{
+  "patch_centers": 2785,
+  "pixels": 57600,
+  "variants": {
+    "biasGuard": [
+      {
+        "frame": 1,
+        "gi_mae": 0.07231032848358154,
+        "p95_blotch_contrast": 0.022074271676051825,
+        "p95_absolute_patch_bias": 0.16596522308115955
+      },
+      {
+        "frame": 2,
+        "gi_mae": 0.06853470206260681,
+        "p95_blotch_contrast": 0.018343968196326287,
+        "p95_absolute_patch_bias": 0.15756900250897407,
+        "p95_temporal_luma_change": 0.0544444937896728,
+        "fraction_pixels_moving_farther_from_reference": 0.41204861111111113
+      },
+      {
+        "frame": 3,
+        "gi_mae": 0.06910878419876099,
+        "p95_blotch_contrast": 0.01662737970156752,
+        "p95_absolute_patch_bias": 0.14936230344953527,
+        "p95_temporal_luma_change": 0.03630631612837315,
+        "fraction_pixels_moving_farther_from_reference": 0.52625
+      },
+      {
+        "frame": 4,
+        "gi_mae": 0.07014912366867065,
+        "p95_blotch_contrast": 0.016294606594558662,
+        "p95_absolute_patch_bias": 0.149152771565151,
+        "p95_temporal_luma_change": 0.02370136116355658,
+        "fraction_pixels_moving_farther_from_reference": 0.5588715277777778
+      }
+    ],
+    "guard4": [
+      {
+        "frame": 1,
+        "gi_mae": 0.07231032848358154,
+        "p95_blotch_contrast": 0.022074271676051825,
+        "p95_absolute_patch_bias": 0.16596522308115955
+      },
+      {
+        "frame": 2,
+        "gi_mae": 0.06853470206260681,
+        "p95_blotch_contrast": 0.018343968196326287,
+        "p95_absolute_patch_bias": 0.15756900250897407,
+        "p95_temporal_luma_change": 0.0544444937896728,
+        "fraction_pixels_moving_farther_from_reference": 0.41204861111111113
+      },
+      {
+        "frame": 3,
+        "gi_mae": 0.06910878419876099,
+        "p95_blotch_contrast": 0.01662737970156752,
+        "p95_absolute_patch_bias": 0.14936230344953527,
+        "p95_temporal_luma_change": 0.03630631612837315,
+        "fraction_pixels_moving_farther_from_reference": 0.52625
+      },
+      {
+        "frame": 4,
+        "gi_mae": 0.07177335768938065,
+        "p95_blotch_contrast": 0.016403613808921746,
+        "p95_absolute_patch_bias": 0.15316638844349367,
+        "p95_temporal_luma_change": 0.022853510000258682,
+        "fraction_pixels_moving_farther_from_reference": 0.6129861111111111
+      }
+    ]
+  },
+  "readback_equal": {
+    "AO_sha256_": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "GI_sha256_": [
+      true,
+      true,
+      true,
+      false
+    ],
+    "contact": [
+      true,
+      true,
+      true,
+      true
+    ]
+  }
+}

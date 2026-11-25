@@ -98,7 +98,7 @@ def media(site,out,s,rows,worst,geom):
             x=640*col
             src=Image.open(site/f'{n}-beauty-{i}.png').convert('RGB')
             panel.paste(src.resize((640,360),Image.Resampling.LANCZOS),(x,38))
-            label(panel,(x+12,8),['Shipping  ·  809e8e6','Challenger  ·  Gallery brightness guard'][col])
+            label(panel,(x+12,8),['Shipping  ·  '+s['baseline'][:7],s.get('clip_label','Challenger  ·  Gallery brightness guard')][col])
             if i>0:
                 r=rows[n][i-1]
                 label(panel,(x+12,405),f"Contact MAE  {r['contact']:.4f}     Luma MAE  {r['recovery']:.5f}")

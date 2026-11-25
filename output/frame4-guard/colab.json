@@ -1,0 +1,32 @@
+{
+  "trials": 12,
+  "selection": "minimize the worse of fit relative GI MAE and blotch p95",
+  "selected": "bright",
+  "reduction": 0.03125,
+  "fit": [
+    0.98451313,
+    0.98666826
+  ],
+  "check": [
+    0.98592701,
+    0.98340852
+  ],
+  "notebook": "https://colab.research.google.com/drive/1nZ1UKETd2GSvFa23N-UFNFunNznZjM9i#scrollTo=L0NPbjenqQf2",
+  "reduction_grid": [
+    0.00390625,
+    0.0078125,
+    0.01171875,
+    0.015625,
+    0.0234375,
+    0.03125
+  ],
+  "mask": [
+    "brightness ramp",
+    "one minus brightness ramp"
+  ],
+  "ramp": "smoothstep(0.0625,0.25,sYcc.x-prevSH0.x)",
+  "metrics": [
+    "frame-four RGB MAE",
+    "frame-four p95 blotch contrast"
+  ]
+}
