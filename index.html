@@ -1206,10 +1206,12 @@ void main(){
     }
     giFramesOut=min(effFrames+1.,giHistMax);
     float alpha=1./giFramesOut;
-    // Use the Gallery startup blend only for a fourth two-ray update with intact history.
-    bvec2 startup=equal(vec2(frame,nd),vec2(3.,2.));
-    bvec2 stable=lessThan(vec2(giDynamic,abs(prevFrames.x-3.)),vec2(.5,.1));
-    alpha=mix(alpha,.21875,all(bvec4(startup,stable)));
+    // Adjust the second and fourth two-ray updates when startup history is intact.
+    bool scheduled=any(equal(vec2(frame),vec2(1.,3.)));
+    bvec2 stable=lessThan(vec2(giDynamic,abs(prevFrames.x-frame)),vec2(.5,.1));
+    float brightStep=smoothstep(0.0625,0.25,sYcc.x-prevSH0.x);
+    float startupAlpha=mix(.21875,0.46875+0.0078125*brightStep,frame==1.);
+    alpha=mix(alpha,startupAlpha,all(bvec4(scheduled,nd==2.,stable)));
     float hitAlpha=max(alpha,.08);
     vec3 yccOut=mix(prevSH0.rgb,sYcc,alpha);
     vec3 prevC1=(prevSH1.rgb*2.-1.)*max(prevSH0.x,0.);
