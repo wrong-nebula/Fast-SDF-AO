@@ -485,8 +485,8 @@ void tracedGISH(vec3 p,vec3 n,float nd,out vec3 giOutIrr,out vec3 giOutC1,out fl
  float fu=fract(su+vdc2(uint(frame)));
  // Two-ray startup elevations, indexed by the zero-based accumulation frame.
  int phase = int(frame) & 3;
- float width = vec4(.75, .875, .5, .75)[phase];
- float center = vec4(.5, .625, .5, .5)[phase];
+ float width = vec4(.75, .875, .375, .6875)[phase];
+ float center = vec4(.5, .625, .5, .4375)[phase];
  fu = mix(fu, center + width * (fu - .5), (nd == 2.) && (frame < 4.));
  float phiBase=6.2831853*fract(sp+vdc3(uint(frame)));
  float minCosClear=2.;
