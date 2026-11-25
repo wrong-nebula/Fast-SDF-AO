@@ -483,6 +483,8 @@ void tracedGISH(vec3 p,vec3 n,float nd,out vec3 giOutIrr,out vec3 giOutC1,out fl
  float su=ign(gl_FragCoord.xy);
  float sp=ign(gl_FragCoord.xy+vec2(37.,17.));
  float fu=fract(su+vdc2(uint(frame)));
+ // Narrow two-ray elevation jitter while the first four frames accumulate.
+ if (nd == 2. && frame < 4.) fu = .5 + .75 * (fu - .5);
  float phiBase=6.2831853*fract(sp+vdc3(uint(frame)));
  float minCosClear=2.;
  if(contactMode==0){
