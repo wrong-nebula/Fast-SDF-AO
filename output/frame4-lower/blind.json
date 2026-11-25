@@ -1,0 +1,42 @@
+{
+  "baseline": "5f1ec58b754a0a95233916c268b24edecfdf8ae4",
+  "challenger": "Frame four at 27/128; frame-two guard preserved",
+  "scene": "archive",
+  "pre_camera": [
+    17.0,
+    1.15,
+    2.0
+  ],
+  "post_camera": [
+    19.6,
+    2.75,
+    2.9
+  ],
+  "target": [
+    18.55,
+    1.65,
+    0
+  ],
+  "plank_half": [
+    0.3,
+    1,
+    0.02
+  ],
+  "center_y": 1.65,
+  "center_z": 0.22,
+  "start_x": 17.83,
+  "step_x": 0.055,
+  "pre_frames": 8,
+  "post_frames": 24,
+  "shot_fps": 24,
+  "motion": "Hold pre-cut, advance one step per frame starting on cut. Clear both histories and reset frame counter at the cut. All other movers offstage.",
+  "pipeline": "Production WebGL2 1280x720, high quality, analytic movers, one-bounce GI, default sun",
+  "edge": "Visible floor within 10 cm of either long side in plan view, excluding 18 cm at both tips",
+  "recovery_roi": "Visible floor within 1.1 m lateral and 0.85 m longitudinal of plank center; sample every fourth raster pixel from top-left (2,2)",
+  "contact_ref": "1024 deterministic cosine hemisphere Hammersley rays, hard visibility to 1.12 m, origin lifted 0.3 mm; all Archive boxes and moving plank",
+  "temporal_ref": "Shipping beauty at each identical post-cut pose after 96 fixed-pose frames and fresh history. Display RGB converted to linear Rec.709 luma.",
+  "flicker": "p95 absolute frame difference in reference-subtracted luma on intersection of consecutive visible floor ROIs; no cross-cut difference",
+  "recovery": "Mean absolute beauty luma residual per frame; recovery is first of three consecutive frames <=0.005",
+  "timing": "6 paired whole-shot blocks alternating order, synchronized beauty frames only, post-cut frames, setup and explicit reset excluded",
+  "worst_still": "Frame with highest moving-edge AO MAE across either variant, earliest on tie"
+}

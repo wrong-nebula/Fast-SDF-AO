@@ -1,0 +1,11 @@
+--- a/index.html
++++ b/index.html
+@@ -1210,7 +1210,7 @@
+     bool scheduled=any(equal(vec2(frame),vec2(1.,3.)));
+     bvec2 stable=lessThan(vec2(giDynamic,abs(prevFrames.x-frame)),vec2(.5,.1));
+     float brightStep=smoothstep(0.0625,0.25,sYcc.x-prevSH0.x);
+-    float startupAlpha=mix(.21875,0.46875+0.0078125*brightStep,frame==1.);
++    float startupAlpha=mix(.21875-.03125*brightStep,0.46875+0.0078125*brightStep,frame==1.);
+     alpha=mix(alpha,startupAlpha,all(bvec4(scheduled,nd==2.,stable)));
+     float hitAlpha=max(alpha,.08);
+     vec3 yccOut=mix(prevSH0.rgb,sYcc,alpha);

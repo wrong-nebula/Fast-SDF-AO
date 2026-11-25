@@ -16,11 +16,15 @@ from score import summarize
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-S = json.loads((HERE/'shot.json').read_text())
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--three', type=Path, default=ROOT/'node_modules/three')
 parser.add_argument('--out', type=Path, default=ROOT/'output/heldout-cut')
+parser.add_argument('--shot', type=Path, default=HERE/'shot.json')
+parser.add_argument('--patch', type=Path, default=HERE/'challenger.patch')
+parser.add_argument('--clip-label', default='Challenger  ·  Gallery brightness guard')
 args = parser.parse_args()
+S = json.loads(args.shot.read_text())
+S['clip_label'] = args.clip_label
 out = args.out.resolve()
 out.mkdir(parents=True, exist_ok=True)
 for line in (HERE/'freeze.sha256').read_text().splitlines():
@@ -36,14 +40,20 @@ with tempfile.TemporaryDirectory() as tmp, sync_playwright() as pw:
         subprocess.run(['tar','-x','-C',tmp],stdin=arc.stdout,check=True)
         assert arc.wait()==0
     base = (site/'index.html').read_bytes()
-    subprocess.run(['patch','-p1','-i',str(HERE/'challenger.patch')],cwd=site,check=True)
+    shipping_contact = (site/'contact-bvh.js').read_bytes()
+    subprocess.run(['patch','-p1','-i',str(args.patch.resolve())],cwd=site,check=True)
     for name,html in [('challenger',(site/'index.html').read_bytes()),('shipping',base)]:
+        variant_site = site/name
+        variant_site.mkdir()
+        for shared in ['src','assets','radiance-grid.js']:
+            (variant_site/shared).symlink_to(site/shared)
+        contact = shipping_contact if name=='shipping' else (site/'contact-bvh.js').read_bytes()
+        (variant_site/'contact-bvh.js').write_bytes(contact)
         if args.three.exists():
             assert json.loads((args.three/'package.json').read_text())['version']=='0.170.0'
             html=html.replace(b'https://cdn.jsdelivr.net/npm/three@0.170.0/',b'./three-local/')
-        (site/(name+'.html')).write_bytes(html)
-    if args.three.exists():
-        (site/'three-local').symlink_to(args.three.resolve())
+            (variant_site/'three-local').symlink_to(args.three.resolve())
+        (variant_site/'index.html').write_bytes(html)
     srv = http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Handler,directory=tmp))
     threading.Thread(target=srv.serve_forever,daemon=True).start()
     browser = pw.chromium.launch(channel='chrome',args=['--use-gl=angle','--use-angle=metal','--enable-webgl','--ignore-gpu-blocklist','--disable-background-timer-throttling','--disable-renderer-backgrounding'])
@@ -54,7 +64,7 @@ with tempfile.TemporaryDirectory() as tmp, sync_playwright() as pw:
         p=browser.new_page(viewport={'width':1360,'height':980})
         pages[name]=p
         p.on('pageerror',lambda e:print('Page error',e,flush=True))
-        p.goto(f'http://127.0.0.1:{srv.server_port}/{name}.html')
+        p.goto(f'http://127.0.0.1:{srv.server_port}/{name}/index.html')
         p.wait_for_function('window.aoDemo !== undefined',timeout=90000)
         gpu=p.evaluate((HERE/'capture.js').read_text(),S)
         assert 'M1' in gpu, gpu

@@ -1,0 +1,54 @@
+{
+  "notebook": "https://colab.research.google.com/drive/1nZ1UKETd2GSvFa23N-UFNFunNznZjM9i#scrollTo=di7-gts6r53n",
+  "count": 45,
+  "bias": [
+    -0.09375,
+    -0.0625,
+    -0.03125
+  ],
+  "width": [
+    0.625,
+    0.6875,
+    0.75
+  ],
+  "rotation_turns": [
+    -0.03125,
+    -0.015625,
+    0,
+    0.015625,
+    0.03125
+  ],
+  "selection": "minimum worst fit ratio of RGB MAE and p95 same-surface blotch contrast",
+  "selected": [
+    -0.09375,
+    0.625,
+    -0.015625
+  ],
+  "fit_ratio": [
+    0.99749087246,
+    0.9224192383
+  ],
+  "check_ratio": [
+    1.00472469389,
+    0.95258925567
+  ],
+  "frame4_blend": 0.21875,
+  "corrected_grid": {
+    "notebook": "https://colab.research.google.com/drive/1nZ1UKETd2GSvFa23N-UFNFunNznZjM9i",
+    "cell": 27,
+    "method": "floor(full_resolution_pixel_center / 4) + 0.5 for both coordinates in all four GI samples, recompute second-frame guard and third-frame history",
+    "selected": [
+      -0.09375,
+      0.625,
+      -0.015625
+    ],
+    "fit_ratio": [
+      0.996462745609,
+      0.949039043988
+    ],
+    "check_ratio": [
+      1.002575226942,
+      0.988310361491
+    ]
+  }
+}
