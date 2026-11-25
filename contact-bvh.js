@@ -164,7 +164,6 @@ vec4 candidateAOBent(vec3 p,vec3 n,float nd){
  vec3 bent=vec3(0.);
  #endif
  float fu=fract(su+vdc2(uint(frame)));
- uint base=uint(frame)*4u;
  // 1-Lipschitz SDF empty-sphere contact skip: if d(p + n*k*R) >= k*R, every ray segment [0, R]
  // with cos(theta) >= 1/(2*k) lies strictly inside the empty ball B(p + n*k*R, k*R).
  // Testing k=4 first skips 98.4% of rays (cos >= 0.125) on open surfaces in 1 SDF fetch.
@@ -204,7 +203,9 @@ vec4 candidateAOBent(vec3 p,vec3 n,float nd){
  for(int i=0;i<4;i++){
   if(float(i)>=nd)break;
   float u=clamp((float(i)+fu)/nd,1e-4,.9999);
-  float phi=6.2831853*fract(sp+vdc3(base+uint(i)));
+  // Three- and four-ray prefixes advance an extra 1/96 turn per ray.
+  float turnStep = 1. / nd + (nd >= 3. ? 1. / 96. : 0.);
+  float phi = 6.2831853 * fract(sp + vdc3(uint(frame)) + float(i) * turnStep);
   float cosn=sqrt(1.-u);
   vec3 w=t*(sqrt(u)*cos(phi))+b*(sqrt(u)*sin(phi))+n*cosn;
   bool skipBvh=cosn>=minCosClear;
@@ -334,7 +335,6 @@ vec4 tracedAOBentGI(vec3 p,vec3 n,float nd,bool needAO,out vec3 giOutIrr){
  vec3 giSum=vec3(0.);
  float giRays=0.;
  float fu=fract(su+vdc2(uint(frame)));
- uint base=uint(frame)*4u;
  int fParity=int(uint(frame)&1u);
  int fMod3=int(uint(frame)%3u);
  float minCosClear=2.;
@@ -373,9 +373,9 @@ vec4 tracedAOBentGI(vec3 p,vec3 n,float nd,bool needAO,out vec3 giOutIrr){
  for(int i=0;i<4;i++){
   if(float(i)>=nd)break;
   float u=clamp((float(i)+fu)/nd,1e-4,.9999);
-  // Antithetic azimuth stratification: rays within a frame are evenly spaced around 2*PI
-  // (180 deg apart for nd=2, 90 deg for nd=4), eliminating frame-to-frame directional color drift.
-  float phi=phiBase+float(i)*(6.2831853/nd);
+  // Keep two rays opposite and widen the three- and four-ray steps.
+  float turnStep = 1. / nd + (nd >= 3. ? 1. / 96. : 0.);
+  float phi = phiBase + float(i) * 6.2831853 * turnStep;
   float cosn=sqrt(1.-u);
   vec3 w=t*(sqrt(u)*cos(phi))+b*(sqrt(u)*sin(phi))+n*cosn;
   // Trace far GI extension on at most 2 opposite (antithetic) stratified rays/frame while keeping
@@ -523,7 +523,9 @@ void tracedGISH(vec3 p,vec3 n,float nd,out vec3 giOutIrr,out vec3 giOutC1,out fl
  for(int i=0;i<4;i++){
   if(float(i)>=nd)break;
   float u=clamp((float(i)+fu)/nd,1e-4,.9999);
-  float phi=phiBase+float(i)*(6.2831853/nd);
+  // Keep two rays opposite and widen the three- and four-ray steps.
+  float turnStep = 1. / nd + (nd >= 3. ? 1. / 96. : 0.);
+  float phi = phiBase + float(i) * 6.2831853 * turnStep;
   float cosn=sqrt(1.-u);
   vec3 w=t*(sqrt(u)*cos(phi))+b*(sqrt(u)*sin(phi))+n*cosn;
   bool skipBvh=cosn>=minCosClear;
